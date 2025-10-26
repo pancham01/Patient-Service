@@ -13,9 +13,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 public class Patient {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-	private String name , email ,description;
-	
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    private String name;
+    private int age;
+    private String disease;
+
 }

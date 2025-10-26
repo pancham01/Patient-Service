@@ -7,29 +7,32 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.spring.boot.dao.PatientRepository;
 import com.spring.boot.entity.Patient;
-import com.spring.boot.service.PatientService;
 
 @RestController
+@RequestMapping("/patients")
 public class PatientController {
 
-	@Autowired
-	private PatientService patientService;
-	
-	@PostMapping(value = "/savePatient")
-	public Patient saveUser(@RequestBody Patient patient) {
-		return patientService.savePatient(patient);
-	}
+    @Autowired
+    private PatientRepository patientRepository;
 
-	@GetMapping(value = "/getPatientById/{id}")
-	public Patient getPatientById(@PathVariable(value = "id") int id) {
-		 return patientService.getPatient(id);
-	}
+    @PostMapping
+    public Patient savePatient(@RequestBody Patient patient) {
+        return patientRepository.save(patient);
+    }
 
-	@GetMapping(value = "/getAllPatients")
-	public List<Patient> getAllAvailablePatient() {
-		return patientService.getAllPatient();
-	}
+    @GetMapping
+    public List<Patient> getAllPatients() {
+        return patientRepository.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public Patient getPatient(@PathVariable(name = "id") int id) {
+    	System.err.println("PatientController.getPatient()  "+id);
+        return patientRepository.findById(id).orElse(null);
+    }
 }
